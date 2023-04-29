@@ -1,3 +1,9 @@
+/**
+
+Esta é a classe principal da aplicação que gerencia a tela de cálculo de ingestão diária de água
+e a configuração de alarmes.
+ */
+
 package com.example.myapplicationagua
 
 import android.app.TimePickerDialog
@@ -19,19 +25,20 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    //Declaração de variáveis de layout
     private lateinit var edit_peso : EditText
     private lateinit var edit_idade: EditText
     private lateinit var btn_calcular:Button
     private lateinit var txt_resultado_ml:TextView
     private lateinit var ic_redefinir_dados:ImageView
-    private lateinit var calcularIngestaoDiaria:CalcularIngestaoDiaria
-    private var resultadoMl = 0.0
-
     private lateinit var bt_lembrete:Button
     private lateinit var bt_alarme:Button
     private lateinit var txt_hora:TextView
     private lateinit var txt_minutos:TextView
 
+    //Declaração de variáveis auxiliares
+    private lateinit var calcularIngestaoDiaria:CalcularIngestaoDiaria
+    private var resultadoMl = 0.0
     lateinit var timePikerDialog: TimePickerDialog
     lateinit var calendario: Calendar
     var horaAtual =0
@@ -42,9 +49,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Inicialização dos componentes de layout
         IniciarComponentes()
+
+        //Inicialização do objeto de cálculo de ingestão diária
         calcularIngestaoDiaria = CalcularIngestaoDiaria()
 
+        //Ação do botão de calcular ingestão diária
         btn_calcular.setOnClickListener(){
             if (edit_peso.text.toString().isEmpty()){
                 Toast.makeText(this,R.string.toast_peso,Toast.LENGTH_SHORT).show()
@@ -63,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //Ação do ícone de redefinição dos dados
         ic_redefinir_dados.setOnClickListener(){
 
             val alertDialog = AlertDialog.Builder(this)
@@ -84,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        //Ação do botão de definição de lembrete
         bt_lembrete.setOnClickListener(){
 
             calendario = Calendar.getInstance()
@@ -97,6 +110,17 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
+        /**
+
+        Este método define o comportamento do botão de definir alarme.
+        Quando o botão é clicado, ele verifica se os campos de hora e minutos não estão vazios.
+        Se não estiverem vazios, ele cria um intent para definir um alarme com a hora e minutos inseridos,
+        bem como uma mensagem de texto pré-definida para o alarme.
+        Em seguida, verifica se há alguma activity disponível para lidar com o intent.
+        Se houver, ele inicia a activity para definir o alarme.
+        Caso contrário, um erro é registrado no Log.
+         */
         bt_alarme.setOnClickListener(){
 
             if (!txt_hora.text.toString().isEmpty() && !txt_minutos.text.toString().isEmpty()){
@@ -122,6 +146,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    /**
+
+    Este método inicializa os componentes da interface do usuário.
+    Ele encontra cada componente por sua id e atribui a uma variável correspondente.
+     */
     private fun IniciarComponentes(){
         edit_peso = findViewById(R.id.edit_peso)
         edit_idade = findViewById(R.id.edit_idade)
